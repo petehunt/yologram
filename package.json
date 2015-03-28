@@ -1,0 +1,13 @@
+{
+  "name": "yologram",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node_modules/react-native/packager/packager.sh"
+  },
+  "dependencies": {
+    "parse": "^1.3.5",
+    "parse-react": "^0.1.0",
+    "react-native": "^0.3.0"
+  }
+}
