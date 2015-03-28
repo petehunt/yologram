@@ -13,32 +13,30 @@ var {
 
 var FeedUnit = require('./FeedUnit');
 
-var TEST_PHOTO = 'https://igcdn-photos-b-a.akamaihd.net/hphotos-ak-xaf1/t51.2885-15/11111410_1611602099085745_1536638339_n.jpg';
-
-var TEST_DATA = [
-  {username: 'pwh', photoUrl: TEST_PHOTO},
-  {username: 'justintimberlake', photoUrl: TEST_PHOTO},
-  {username: 'justinbieber', photoUrl: TEST_PHOTO},
-];
+var Parse = require('parse').Parse;
+var ParseReact = require('parse-react/dist/parse-react.js');
 
 var Feed = React.createClass({
-  getInitialState: function() {
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+  mixins: [ParseReact.Mixin],
+
+  observe: function() {
     return {
-      dataSource: ds.cloneWithRows(TEST_DATA),
+      photos: (new Parse.Query('Photo')).descending('createdAt')
     };
   },
+
   renderRow: function(row) {
-    return <FeedUnit {...row} />;
+    return <FeedUnit username="pwh" photoUrl={row.imagedata._url}/>;
   },
+
   render: function() {
-    // TODO (vjeux):
-    // <View flex={1} backgroundColor="red" marginTop={64}>
-    // ;)
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    ds = ds.cloneWithRows(this.data.photos);
+
     return (
       <ListView
         style={styles.container}
-        dataSource={this.state.dataSource}
+        dataSource={ds}
         renderRow={this.renderRow}
       />
     );
@@ -50,7 +48,6 @@ var styles = StyleSheet.create({
     flex: 1,
     padding: 28,
   },
-
 });
 
 module.exports = Feed;

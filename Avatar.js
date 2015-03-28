@@ -8,7 +8,7 @@ var {
   Text,
   View,
   NavigatorIOS,
-  Image
+  Image,
 } = React;
 
 var Avatar = React.createClass({

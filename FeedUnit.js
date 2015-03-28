@@ -42,7 +42,7 @@ var styles = StyleSheet.create({
   photo: {
     width: 320,
     height: 320,
-
+    marginBottom: 8,
   },
 });
 
