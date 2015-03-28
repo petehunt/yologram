@@ -34,9 +34,10 @@ var styles = StyleSheet.create({
     // TODO (phunt): actually learn flexbox
     height: 480,
     marginBottom: 8,
-    backgroundColor: 'gray',
+    alignItems: 'center',
   },
-  photoContainer: {
+  contentContainer: {
+    flex: 1,
   },
   photo: {
     width: 320,
