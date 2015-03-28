@@ -12,27 +12,45 @@ var {
   CameraRoll,
   ActivityIndicatorIOS,
   Image,
+  TouchableHighlight,
 } = React;
+var YologramManager = require('NativeModules').YologramManager;
 
 var FeedUnit = require('./FeedUnit');
 
 var Parse = require('parse').Parse;
 var ParseReact = require('parse-react/dist/parse-react.js');
+var Photo = require('./Photo');
 
 var PHOTOS_PER_ROW = 3;
 
 var Thumbnail = React.createClass({
   render: function() {
     return (
-      <Image
-        source={this.props.photo.image}
-        style={[styles.thumbnail, this.props.middle && styles.thumbnailMiddle]}
-      />
+      <TouchableHighlight onPress={this.props.onPress}>
+        <Image
+          source={this.props.photo.image}
+          style={[styles.thumbnail, this.props.middle && styles.thumbnailMiddle]}
+        />
+      </TouchableHighlight>
     );
   },
 });
 
 var ThumbnailGrid = React.createClass({
+  handlePress: function(photo) {
+    YologramManager.getImageData(photo.image.uri, function(base64) {
+      var file = new Parse.File(
+        'image' + Date.now() + '.jpg',
+        {base64: base64}
+      );
+      file.save();
+      var photo = new Photo();
+      photo.set('imagedata', file);
+      photo.save();
+    });
+  },
+
   render: function() {
     var rows = [];
     var currentRow = [];
@@ -53,9 +71,10 @@ var ThumbnailGrid = React.createClass({
           photo={photo}
           key={i}
           middle={i % 3 === 1}
+          onPress={this.handlePress.bind(this, photo)}
         />
       );
-    });
+    }.bind(this));
     return (
       <View>
         {rows}
