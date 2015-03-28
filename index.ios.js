@@ -28,7 +28,7 @@ var yologram = React.createClass({
   },
 
   getInitialState: function() {
-    return {tab: 'camera'};
+    return {tab: 'feed'};
   },
 
   render: function() {
