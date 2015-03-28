@@ -14,7 +14,6 @@ var {
   View,
   NavigatorIOS,
   TabBarIOS,
-  CameraRoll,
 } = React;
 var TabBarItemIOS = TabBarIOS.Item;
 
